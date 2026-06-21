@@ -4,19 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Baecation?</title>
-    
-    <!-- Cute Custom Browser Icon (Favicon) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
 
-    <style><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baecation?</title>
-    
-    <!-- Cute Custom Browser Icon (Favicon) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%26%23x2708%3B%3C/text%3E%3C/svg%3E">
 
     <style>
         body {
@@ -30,11 +19,12 @@
             overflow: hidden;
             text-align: center;
         }
+
         .container {
             background-color: white;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             max-width: 480px;
             width: 90%;
             z-index: 10;
@@ -42,18 +32,21 @@
             max-height: 85vh;
             overflow-y: auto;
         }
+
         h1 {
             color: #0077b6;
             font-size: 2rem;
             margin-bottom: 25px;
         }
+
         .buttons {
             display: flex;
             justify-content: center;
             gap: 20px;
-            height: 60px;
+            min-height: 60px;
             position: relative;
         }
+
         button {
             padding: 12px 30px;
             font-size: 1.1rem;
@@ -61,8 +54,9 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.1s ease;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
+
         #yesBtn {
             background-color: #00b4d8;
             color: white;
@@ -71,6 +65,13 @@
             top: 0;
             z-index: 999;
         }
+
+        #yesBtn:hover,
+        #yesBtn:focus-visible {
+            transform: scale(1.1);
+            box-shadow: 0 8px 18px rgba(0, 180, 216, 0.35);
+        }
+
         #noBtn {
             background-color: #777;
             color: white;
@@ -78,26 +79,32 @@
             right: 20%;
             top: 0;
         }
-        #noBtn:hover {
+
+        #noBtn:hover,
+        #noBtn:focus-visible {
             transform: scale(1.1);
         }
+
         .next-btn {
             background-color: #ff4d6d;
             color: white;
             margin-top: 20px;
             animation: pulse 1.5s infinite;
         }
+
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+
         .place-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
             margin-top: 20px;
         }
+
         .place-card {
             background: #f8f9fa;
             border: 2px solid #e9ecef;
@@ -110,43 +117,65 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
         }
+
         .place-card:hover {
             background: #e3f2fd;
             border-color: #00b4d8;
             color: #0077b6;
             transform: translateY(-2px);
         }
+
         .input-group {
             display: flex;
             gap: 10px;
             margin-top: 10px;
             width: 100%;
         }
+
         .custom-input {
             flex: 1;
+            min-width: 0;
             padding: 12px;
             border: 2px solid #ced4da;
             border-radius: 50px;
             font-size: 1rem;
             outline: none;
         }
+
         .custom-input:focus {
             border-color: #00b4d8;
         }
+
         .submit-btn {
             background-color: #00b4d8;
             color: white;
             padding: 12px 25px;
             border-radius: 50px;
         }
+
+        .return-btn {
+            background-color: #495057;
+            color: white;
+            margin-top: 18px;
+        }
+
+        .return-btn:hover,
+        .return-btn:focus-visible {
+            transform: scale(1.05);
+            box-shadow: 0 8px 18px rgba(73, 80, 87, 0.25);
+        }
+
         .celebration-item {
             position: fixed;
             bottom: -100px;
             font-size: 2.5rem;
             animation: floatUp 4s linear forwards;
             z-index: 1;
+            pointer-events: none;
         }
+
         @keyframes floatUp {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
@@ -154,13 +183,11 @@
     </style>
 </head>
 <body>
-
     <div class="container" id="quizBox">
-        <h1 id="question">Do you want to go on a baecation with me? ✈️🏝️</h1>
+        <h1 id="question">Do you want to go on a baecation with me? &#9992;&#65039;&#127958;&#65039;</h1>
         <div class="buttons">
-            <!-- Added ontouchstart and fixed click evaluation for mobile screens -->
-            <button id="yesBtn" onmouseover="moveButton(event)" ontouchstart="moveButton(event)" onclick="handleYesClick()">Yes!</button>
-            <button id="noBtn" onclick="alert('Wrong button! Try the other one 😉')">No</button>
+            <button id="yesBtn" type="button">Yes!</button>
+            <button id="noBtn" type="button">No</button>
         </div>
     </div>
 
@@ -168,292 +195,58 @@
         let attemptCount = 0;
         let celebrationInterval;
 
-        function moveButton(event) {
-            // If they reached 3 dodges already, freeze the button so the 4th interaction clicks it
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+
+        yesBtn.addEventListener('mouseenter', dodgeYesButton);
+        yesBtn.addEventListener('touchstart', dodgeYesButton, { passive: false });
+        yesBtn.addEventListener('click', handleYesClick);
+
+        noBtn.addEventListener('click', () => {
+            alert('Wrong button! Try the other one \uD83D\uDE09');
+        });
+
+        function dodgeYesButton(event) {
             if (attemptCount >= 3) {
                 return;
             }
 
-            // Prevent zoom/scroll defaults on mobile taps
             if (event && event.type === 'touchstart') {
                 event.preventDefault();
             }
 
-            const yesBtn = document.getElementById('yesBtn');
-            const padding = 80;
-            
-            const maxX = window.innerWidth - yesBtn.offsetWidth - padding;
-            const maxY = window.innerHeight - yesBtn.offsetHeight - padding;
-            
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-            
-            yesBtn.style.position = 'fixed';
-            yesBtn.style.left = randomX + 'px';
-            yesBtn.style.top = randomY + 'px';
-            
+            moveButton();
             attemptCount++;
         }
-
-        function handleYesClick() {
-            // Backup validation if user clicks it via keyboard navigation early
-            if (attemptCount < 3) {
-                attemptCount++;
-                moveButton();
-                return;
-            }
-            celebrate(['🎈', '🎀', '🎉', '✨']);
-            showFirstSuccess();
-        }
-
-        function spawnParticles(icons) {
-            if (celebrationInterval) clearInterval(celebrationInterval);
-            celebrationInterval = setInterval(() => {
-                const item = document.createElement('div');
-                item.className = 'celebration-item';
-                item.innerText = icons[Math.floor(Math.random() * icons.length)];
-                item.style.left = Math.random() * 100 + 'vw';
-                item.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                document.body.appendChild(item);
-                setTimeout(() => item.remove(), 4000);
-            }, 100);
-            setTimeout(() => clearInterval(celebrationInterval), 4000);
-        }
-
-        function celebrate(icons) {
-            const favicon = document.querySelector("link[rel*='icon']");
-            favicon.href = "data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>";
-            spawnParticles(icons);
-        }
-
-        function showFirstSuccess() {
-            const box = document.getElementById('quizBox');
-            box.innerHTML = `
-                <h1 style="font-size: 2.3rem; color: #0077b6; margin-bottom: 10px;">She said YES! 🥳🥂</h1>
-                <p style="color: #00b4d8; font-size: 1.3rem; font-weight: bold; margin-bottom: 20px;">Pack your bags! 🧳✈️</p>
-                <button class="next-btn" onclick="showPlacesMenu()">Next ➔</button>
-            `;
-        }
-
-        function showPlacesMenu() {
-            const box = document.getElementById('quizBox');
-            box.innerHTML = `
-                <h1 style="font-size: 1.8rem; color: #0077b6;">Where should we go chill? 🌿🥂</h1>
-                <div class="place-list">
-                    <div class="place-card" onclick="selectPlace('Sirville Adventure Park', ['🏹', '🚣', '🌲', '🔥'])">
-                        <span>1. Sirville Adventure Park</span> <span>🏹</span>
-                    </div>
-                    <div class="place-card" onclick="selectPlace('Lemon Valley', ['🍋', '⛰️', '🍷', '🌅'])">
-                        <span>2. Lemon Valley</span> <span>🍋</span>
-                    </div>
-                    <div class="place-card" onclick="selectPlace('Equator Green Gardens & Resort', ['🌴', '🏊', '🍹', '🌸'])">
-                        <span>3. Equator Green Gardens</span> <span>🌴</span>
-                    </div>
-                    <div class="place-card" onclick="selectPlace('Maili Saba Camp', ['⛺', '🌋', '🦓', '✨'])">
-                        <span>4. Maili Saba Camp</span> <span>⛺</span>
-                    </div>
-                    <div class="place-card" onclick="showCustomInput()">
-                        <span>5. Suggest somewhere else...</span> <span>💭</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        function showCustomInput() {
-            const box = document.getElementById('quizBox');
-            box.innerHTML = `
-                <h1 style="font-size: 1.8rem; color: #0077b6;">Ooooh, surprise me! 🗺️✨</h1>
-                <p style="color: #6c757d; font-weight: 600;">Where do you want to go?</p>
-                <div class="input-group">
-                    <input type="text" id="customPlace" class="custom-input" placeholder="Type destination name..." autofocus>
-                    <button class="submit-btn" onclick="handleCustomSubmit()">Go! ➔</button>
-                </div>
-            `;
-        }
-
-        function handleCustomSubmit() {
-            const input = document.getElementById('customPlace').value.trim();
-            if(input === "") {
-                alert("Type a destination first! 😉");
-                return;
-            }
-            selectPlace(input, ['🔮', '⭐', '❤️', '✈️']);
-        }
-
-        function selectPlace(name, customEmojis) {
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f8ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            text-align: center;
-        }
-        .container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 480px;
-            width: 90%;
-            z-index: 10;
-            position: relative;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-        h1 {
-            color: #0077b6;
-            font-size: 2rem;
-            margin-bottom: 25px;
-        }
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            height: 50px;
-            position: relative;
-        }
-        button {
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        #yesBtn {
-            background-color: #00b4d8;
-            color: white;
-            position: absolute;
-            left: 25%;
-        }
-        #noBtn {
-            background-color: #777;
-            color: white;
-        }
-        #noBtn:hover {
-            transform: scale(1.1);
-        }
-        .next-btn {
-            background-color: #ff4d6d;
-            color: white;
-            margin-top: 20px;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        /* Place List Styling */
-        .place-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .place-card {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            padding: 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #495057;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .place-card:hover {
-            background: #e3f2fd;
-            border-color: #00b4d8;
-            color: #0077b6;
-            transform: translateY(-2px);
-        }
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            width: 100%;
-        }
-        .custom-input {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #ced4da;
-            border-radius: 50px;
-            font-size: 1rem;
-            outline: none;
-        }
-        .custom-input:focus {
-            border-color: #00b4d8;
-        }
-        .submit-btn {
-            background-color: #00b4d8;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-        }
-        /* Celebration Elements */
-        .celebration-item {
-            position: fixed;
-            bottom: -100px;
-            font-size: 2.5rem;
-            animation: floatUp 4s linear forwards;
-            z-index: 1;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container" id="quizBox">
-        <h1 id="question">Do you want to go on a baecation with me? ✈️🏝️</h1>
-        <div class="buttons">
-            <button id="yesBtn" onmouseover="moveButton()" onclick="handleYesClick()">Yes!</button>
-            <button id="noBtn" onclick="alert('Wrong button! Try the other one 😉')">No</button>
-        </div>
-    </div>
-
-    <script>
-        let attemptCount = 0;
-        let celebrationInterval;
 
         function moveButton() {
-            if (attemptCount >= 3) return;
-            const yesBtn = document.getElementById('yesBtn');
             const padding = 80;
-            const maxX = window.innerWidth - yesBtn.offsetWidth - padding;
-            const maxY = window.innerHeight - yesBtn.offsetHeight - padding;
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-            
+            const maxX = Math.max(padding, window.innerWidth - yesBtn.offsetWidth - padding);
+            const maxY = Math.max(padding, window.innerHeight - yesBtn.offsetHeight - padding);
+
+            const randomX = Math.floor(Math.random() * (maxX - padding + 1)) + padding;
+            const randomY = Math.floor(Math.random() * (maxY - padding + 1)) + padding;
+
             yesBtn.style.position = 'fixed';
             yesBtn.style.left = randomX + 'px';
             yesBtn.style.top = randomY + 'px';
-            attemptCount++;
         }
 
         function handleYesClick() {
             if (attemptCount < 3) {
-                attemptCount++;
-                moveButton();
+                dodgeYesButton();
                 return;
             }
-            celebrate(['🎈', '🎀', '🎉', '✨']);
+
+            celebrate(['\uD83C\uDF88', '\uD83C\uDF80', '\uD83C\uDF89', '\u2728']);
             showFirstSuccess();
         }
 
         function spawnParticles(icons) {
-            if (celebrationInterval) clearInterval(celebrationInterval);
+            if (celebrationInterval) {
+                clearInterval(celebrationInterval);
+            }
+
             celebrationInterval = setInterval(() => {
                 const item = document.createElement('div');
                 item.className = 'celebration-item';
@@ -463,43 +256,44 @@
                 document.body.appendChild(item);
                 setTimeout(() => item.remove(), 4000);
             }, 100);
+
             setTimeout(() => clearInterval(celebrationInterval), 4000);
         }
 
         function celebrate(icons) {
             const favicon = document.querySelector("link[rel*='icon']");
-            favicon.href = "data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>";
+            favicon.href = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%26%23x1F496%3B%3C/text%3E%3C/svg%3E";
             spawnParticles(icons);
         }
 
         function showFirstSuccess() {
             const box = document.getElementById('quizBox');
             box.innerHTML = `
-                <h1 style="font-size: 2.3rem; color: #0077b6; margin-bottom: 10px;">She said YES! 🥳🥂</h1>
-                <p style="color: #00b4d8; font-size: 1.3rem; font-weight: bold; margin-bottom: 20px;">Pack your bags! 🧳✈></p>
-                <button class="next-btn" onclick="showPlacesMenu()">Next ➔</button>
+                <h1 style="font-size: 2.3rem; color: #0077b6; margin-bottom: 10px;">She said YES! &#129395;&#129346;</h1>
+                <p style="color: #00b4d8; font-size: 1.3rem; font-weight: bold; margin-bottom: 20px;">Pack your bags! &#129523;&#9992;&#65039;</p>
+                <button class="next-btn" type="button" onclick="showPlacesMenu()">Next &#10140;</button>
             `;
         }
 
         function showPlacesMenu() {
             const box = document.getElementById('quizBox');
             box.innerHTML = `
-                <h1 style="font-size: 1.8rem; color: #0077b6;">Where should we go chill? 🌿🥂</h1>
+                <h1 style="font-size: 1.8rem; color: #0077b6;">Where should we go chill? &#127807;&#129346;</h1>
                 <div class="place-list">
-                    <div class="place-card" onclick="selectPlace('Sirville Adventure Park', ['🏹', '🚣', '🌲', '🔥'])">
-                        <span>1. Sirville Adventure Park</span> <span>🏹</span>
+                    <div class="place-card" onclick="selectPlace('Sirville Adventure Park', ['\uD83C\uDFF9', '\uD83D\uDEA3', '\uD83C\uDF32', '\uD83D\uDD25'])">
+                        <span>1. Sirville Adventure Park</span> <span>&#127993;</span>
                     </div>
-                    <div class="place-card" onclick="selectPlace('Lemon Valley', ['🍋', '⛰️', '🍷', '🌅'])">
-                        <span>2. Lemon Valley</span> <span>🍋</span>
+                    <div class="place-card" onclick="selectPlace('Lemon Valley', ['\uD83C\uDF4B', '\u26F0\uFE0F', '\uD83C\uDF77', '\uD83C\uDF05'])">
+                        <span>2. Lemon Valley</span> <span>&#127819;</span>
                     </div>
-                    <div class="place-card" onclick="selectPlace('Equator Green Gardens & Resort', ['🌴', '🏊', '🍹', '🌸'])">
-                        <span>3. Equator Green Gardens</span> <span>🌴</span>
+                    <div class="place-card" onclick="selectPlace('Equator Green Gardens & Resort', ['\uD83C\uDF34', '\uD83C\uDFCA', '\uD83C\uDF79', '\uD83C\uDF38'])">
+                        <span>3. Equator Green Gardens</span> <span>&#127796;</span>
                     </div>
-                    <div class="place-card" onclick="selectPlace('Maili Saba Camp', ['⛺', '🌋', '🦓', '✨'])">
-                        <span>4. Maili Saba Camp</span> <span>⛺</span>
+                    <div class="place-card" onclick="selectPlace('Maili Saba Camp', ['\u26FA', '\uD83C\uDF0B', '\uD83E\uDD93', '\u2728'])">
+                        <span>4. Maili Saba Camp</span> <span>&#9978;</span>
                     </div>
                     <div class="place-card" onclick="showCustomInput()">
-                        <span>5. Suggest somewhere else...</span> <span>💭</span>
+                        <span>5. Suggest somewhere else...</span> <span>&#128173;</span>
                     </div>
                 </div>
             `;
@@ -508,32 +302,46 @@
         function showCustomInput() {
             const box = document.getElementById('quizBox');
             box.innerHTML = `
-                <h1 style="font-size: 1.8rem; color: #0077b6;">Ooooh, surprise me! 🗺️✨</h1>
+                <h1 style="font-size: 1.8rem; color: #0077b6;">Ooooh, surprise me! &#128506;&#65039;&#10024;</h1>
                 <p style="color: #6c757d; font-weight: 600;">Where do you want to go?</p>
                 <div class="input-group">
                     <input type="text" id="customPlace" class="custom-input" placeholder="Type destination name..." autofocus>
-                    <button class="submit-btn" onclick="handleCustomSubmit()">Go! ➔</button>
+                    <button class="submit-btn" type="button" onclick="handleCustomSubmit()">Go! &#10140;</button>
                 </div>
             `;
         }
 
         function handleCustomSubmit() {
             const input = document.getElementById('customPlace').value.trim();
-            if(input === "") {
-                alert("Type a destination first! 😉");
+
+            if (input === '') {
+                alert('Type a destination first! \uD83D\uDE09');
                 return;
             }
-            selectPlace(input, ['🔮', '⭐', '❤️', '✈️']);
+
+            selectPlace(input, ['\uD83D\uDD2E', '\u2B50', '\u2764\uFE0F', '\u2708\uFE0F']);
         }
 
         function selectPlace(name, customEmojis) {
-            // Explode screen with themed custom emojis based on her pick!
-            spawnParticles(customEmojis.concat(['🎉', '✨', '💖']));
+            celebrate(customEmojis);
 
             const box = document.getElementById('quizBox');
             box.innerHTML = `
-                <h1 style="font-size: 2.2rem; color: #ff4d6d; margin-bottom: 15px;">Perfect Choice! 😍</h1>
-                <div style="font-size: 4rem; margin-bottom: 15px;">${customEmojis[0]}</div>
-                <p style="font-size: 1.4rem; font-weight: bold; color: #0077b6;">${name} it is! 🙌</p>
-                <p style="color: #6c757d; font-size: 1.1rem; margin-top: 15px;">Get ready for the best time ever! 🥰🧳</p>
+                <h1 style="font-size: 2rem; color: #0077b6;">Perfect! &#128153;</h1>
+                <p style="color: #495057; font-size: 1.25rem; font-weight: 700;">${escapeHtml(name)} it is.</p>
+                <p style="color: #00b4d8; font-size: 1.1rem; font-weight: 600;">Baecation loading... &#9992;&#65039;&#127958;&#65039;</p>
+                <button class="return-btn" type="button" onclick="showPlacesMenu()">Return</button>
             `;
+        }
+
+        function escapeHtml(value) {
+            return value
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
