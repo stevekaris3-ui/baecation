@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baecation?</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 450px;
+            width: 90%;
+            z-index: 10;
+            position: relative;
+        }
+        h1 {
+            color: #0077b6;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 50px;
+            position: relative;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+        #yesBtn {
+            background-color: #00b4d8;
+            color: white;
+            position: absolute;
+            left: 25%;
+        }
+        #noBtn {
+            background-color: #777;
+            color: white;
+        }
+        #noBtn:hover {
+            transform: scale(1.1);
+        }
+        /* Celebration Elements */
+        .celebration-item {
+            position: fixed;
+            bottom: -100px;
+            font-size: 2.5rem;
+            animation: floatUp 4s linear forwards;
+            z-index: 1;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="quizBox">
+        <h1 id="question">Do you want to go on a baecation with me? ✈️🏝️</h1>
+        <div class="buttons">
+            <button id="yesBtn" onmouseover="moveButton()" onclick="handleYesClick()">Yes!</button>
+            <button id="noBtn" onclick="alert('Wrong button! Try the other one 😉')">No</button>
+        </div>
+    </div>
+
+    <script>
+        let attemptCount = 0;
+
+        function moveButton() {
+            // Stop moving the button on the 4th attempt onwards
+            if (attemptCount >= 3) {
+                return;
+            }
+
+            const yesBtn = document.getElementById('yesBtn');
+            
+            const padding = 80;
+            const maxX = window.innerWidth - yesBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - yesBtn.offsetHeight - padding;
+            
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+            
+            yesBtn.style.position = 'fixed';
+            yesBtn.style.left = randomX + 'px';
+            yesBtn.style.top = randomY + 'px';
+
+            attemptCount++;
+        }
+
+        function handleYesClick() {
+            // If they manage to click it early via keyboard or mobile tap, count it
+            if (attemptCount < 3) {
+                attemptCount++;
+                moveButton();
+                return;
+            }
+            
+            // Trigger celebration on the 4th click attempt
+            celebrate();
+        }
+
+        function celebrate() {
+            // Update the screen text
+            const box = document.getElementById('quizBox');
+            box.innerHTML = `
+                <h1 style="font-size: 2.5rem; color: #0077b6;">She said YES! 🥳🥂</h1>
+                <p style="color: #00b4d8; font-size: 1.3rem; font-weight: bold;">Pack your bags! 🧳✈️</p>
+            `;
+
+            // Spawn balloons and ribbons continuously for 4 seconds
+            const icons = ['🎈', '🎀', '🎈', '🎉', '✨'];
+            const interval = setInterval(() => {
+                const item = document.createElement('div');
+                item.className = 'celebration-item';
+                item.innerText = icons[Math.floor(Math.random() * icons.length)];
+                item.style.left = Math.random() * 100 + 'vw';
+                item.style.animationDuration = (Math.random() * 2 + 2) + 's'; // between 2s and 4s
+                document.body.appendChild(item);
+
+                // Clean up element after animation finishes
+                setTimeout(() => item.remove(), 4000);
+            }, 100);
+
+            // Stop spawning after 5 seconds
+            setTimeout(() => clearInterval(interval), 5000);
+        }
+    </script>
+
+</body>
+</html>
