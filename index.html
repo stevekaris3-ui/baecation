@@ -25,15 +25,17 @@
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 450px;
+            max-width: 480px;
             width: 90%;
             z-index: 10;
             position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
         }
         h1 {
             color: #0077b6;
             font-size: 2rem;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .buttons {
             display: flex;
@@ -49,7 +51,7 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.1s ease;
+            transition: all 0.2s ease;
         }
         #yesBtn {
             background-color: #00b4d8;
@@ -64,6 +66,66 @@
         #noBtn:hover {
             transform: scale(1.1);
         }
+        .next-btn {
+            background-color: #ff4d6d;
+            color: white;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        /* Place List Styling */
+        .place-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .place-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .place-card:hover {
+            background: #e3f2fd;
+            border-color: #00b4d8;
+            color: #0077b6;
+            transform: translateY(-2px);
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .custom-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ced4da;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+        .custom-input:focus {
+            border-color: #00b4d8;
+        }
+        .submit-btn {
+            background-color: #00b4d8;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+        }
         /* Celebration Elements */
         .celebration-item {
             position: fixed;
@@ -73,14 +135,8 @@
             z-index: 1;
         }
         @keyframes floatUp {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-110vh) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
@@ -96,25 +152,20 @@
 
     <script>
         let attemptCount = 0;
+        let celebrationInterval;
 
         function moveButton() {
-            if (attemptCount >= 3) {
-                return;
-            }
-
+            if (attemptCount >= 3) return;
             const yesBtn = document.getElementById('yesBtn');
-            
             const padding = 80;
             const maxX = window.innerWidth - yesBtn.offsetWidth - padding;
             const maxY = window.innerHeight - yesBtn.offsetHeight - padding;
-            
             const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
             const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
             
             yesBtn.style.position = 'fixed';
             yesBtn.style.left = randomX + 'px';
             yesBtn.style.top = randomY + 'px';
-
             attemptCount++;
         }
 
@@ -124,35 +175,92 @@
                 moveButton();
                 return;
             }
-            celebrate();
+            celebrate(['🎈', '🎀', '🎉', '✨']);
+            showFirstSuccess();
         }
 
-        function celebrate() {
-            const box = document.getElementById('quizBox');
-            box.innerHTML = `
-                <h1 style="font-size: 2.5rem; color: #0077b6;">She said YES! 🥳🥂</h1>
-                <p style="color: #00b4d8; font-size: 1.3rem; font-weight: bold;">Pack your bags! 🧳✈️</p>
-            `;
-
-            // Change browser tab icon to a celebration heart once she clicks Yes
-            const favicon = document.querySelector("link[rel*='icon']");
-            favicon.href = "data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>";
-
-            const icons = ['🎈', '🎀', '🎈', '🎉', '✨'];
-            const interval = setInterval(() => {
+        function spawnParticles(icons) {
+            if (celebrationInterval) clearInterval(celebrationInterval);
+            celebrationInterval = setInterval(() => {
                 const item = document.createElement('div');
                 item.className = 'celebration-item';
                 item.innerText = icons[Math.floor(Math.random() * icons.length)];
                 item.style.left = Math.random() * 100 + 'vw';
                 item.style.animationDuration = (Math.random() * 2 + 2) + 's';
                 document.body.appendChild(item);
-
                 setTimeout(() => item.remove(), 4000);
             }, 100);
-
-            setTimeout(() => clearInterval(interval), 5000);
+            setTimeout(() => clearInterval(celebrationInterval), 4000);
         }
-    </script>
 
-</body>
-</html>
+        function celebrate(icons) {
+            const favicon = document.querySelector("link[rel*='icon']");
+            favicon.href = "data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>";
+            spawnParticles(icons);
+        }
+
+        function showFirstSuccess() {
+            const box = document.getElementById('quizBox');
+            box.innerHTML = `
+                <h1 style="font-size: 2.3rem; color: #0077b6; margin-bottom: 10px;">She said YES! 🥳🥂</h1>
+                <p style="color: #00b4d8; font-size: 1.3rem; font-weight: bold; margin-bottom: 20px;">Pack your bags! 🧳✈></p>
+                <button class="next-btn" onclick="showPlacesMenu()">Next ➔</button>
+            `;
+        }
+
+        function showPlacesMenu() {
+            const box = document.getElementById('quizBox');
+            box.innerHTML = `
+                <h1 style="font-size: 1.8rem; color: #0077b6;">Where should we go chill? 🌿🥂</h1>
+                <div class="place-list">
+                    <div class="place-card" onclick="selectPlace('Sirville Adventure Park', ['🏹', '🚣', '🌲', '🔥'])">
+                        <span>1. Sirville Adventure Park</span> <span>🏹</span>
+                    </div>
+                    <div class="place-card" onclick="selectPlace('Lemon Valley', ['🍋', '⛰️', '🍷', '🌅'])">
+                        <span>2. Lemon Valley</span> <span>🍋</span>
+                    </div>
+                    <div class="place-card" onclick="selectPlace('Equator Green Gardens & Resort', ['🌴', '🏊', '🍹', '🌸'])">
+                        <span>3. Equator Green Gardens</span> <span>🌴</span>
+                    </div>
+                    <div class="place-card" onclick="selectPlace('Maili Saba Camp', ['⛺', '🌋', '🦓', '✨'])">
+                        <span>4. Maili Saba Camp</span> <span>⛺</span>
+                    </div>
+                    <div class="place-card" onclick="showCustomInput()">
+                        <span>5. Suggest somewhere else...</span> <span>💭</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showCustomInput() {
+            const box = document.getElementById('quizBox');
+            box.innerHTML = `
+                <h1 style="font-size: 1.8rem; color: #0077b6;">Ooooh, surprise me! 🗺️✨</h1>
+                <p style="color: #6c757d; font-weight: 600;">Where do you want to go?</p>
+                <div class="input-group">
+                    <input type="text" id="customPlace" class="custom-input" placeholder="Type destination name..." autofocus>
+                    <button class="submit-btn" onclick="handleCustomSubmit()">Go! ➔</button>
+                </div>
+            `;
+        }
+
+        function handleCustomSubmit() {
+            const input = document.getElementById('customPlace').value.trim();
+            if(input === "") {
+                alert("Type a destination first! 😉");
+                return;
+            }
+            selectPlace(input, ['🔮', '⭐', '❤️', '✈️']);
+        }
+
+        function selectPlace(name, customEmojis) {
+            // Explode screen with themed custom emojis based on her pick!
+            spawnParticles(customEmojis.concat(['🎉', '✨', '💖']));
+
+            const box = document.getElementById('quizBox');
+            box.innerHTML = `
+                <h1 style="font-size: 2.2rem; color: #ff4d6d; margin-bottom: 15px;">Perfect Choice! 😍</h1>
+                <div style="font-size: 4rem; margin-bottom: 15px;">${customEmojis[0]}</div>
+                <p style="font-size: 1.4rem; font-weight: bold; color: #0077b6;">${name} it is! 🙌</p>
+                <p style="color: #6c757d; font-size: 1.1rem; margin-top: 15px;">Get ready for the best time ever! 🥰🧳</p>
+            `;
