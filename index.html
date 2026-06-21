@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Baecation?</title>
+    
+    <!-- Cute Custom Browser Icon (Favicon) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -94,7 +98,6 @@
         let attemptCount = 0;
 
         function moveButton() {
-            // Stop moving the button on the 4th attempt onwards
             if (attemptCount >= 3) {
                 return;
             }
@@ -116,40 +119,37 @@
         }
 
         function handleYesClick() {
-            // If they manage to click it early via keyboard or mobile tap, count it
             if (attemptCount < 3) {
                 attemptCount++;
                 moveButton();
                 return;
             }
-            
-            // Trigger celebration on the 4th click attempt
             celebrate();
         }
 
         function celebrate() {
-            // Update the screen text
             const box = document.getElementById('quizBox');
             box.innerHTML = `
                 <h1 style="font-size: 2.5rem; color: #0077b6;">She said YES! 🥳🥂</h1>
                 <p style="color: #00b4d8; font-size: 1.3rem; font-weight: bold;">Pack your bags! 🧳✈️</p>
             `;
 
-            // Spawn balloons and ribbons continuously for 4 seconds
+            // Change browser tab icon to a celebration heart once she clicks Yes
+            const favicon = document.querySelector("link[rel*='icon']");
+            favicon.href = "data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>";
+
             const icons = ['🎈', '🎀', '🎈', '🎉', '✨'];
             const interval = setInterval(() => {
                 const item = document.createElement('div');
                 item.className = 'celebration-item';
                 item.innerText = icons[Math.floor(Math.random() * icons.length)];
                 item.style.left = Math.random() * 100 + 'vw';
-                item.style.animationDuration = (Math.random() * 2 + 2) + 's'; // between 2s and 4s
+                item.style.animationDuration = (Math.random() * 2 + 2) + 's';
                 document.body.appendChild(item);
 
-                // Clean up element after animation finishes
                 setTimeout(() => item.remove(), 4000);
             }, 100);
 
-            // Stop spawning after 5 seconds
             setTimeout(() => clearInterval(interval), 5000);
         }
     </script>
